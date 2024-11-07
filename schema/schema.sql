@@ -1,3 +1,4 @@
+-- Creates the tables in the database.
 
 DROP TABLE IF EXISTS retailer, unit, product, price;
 
@@ -18,7 +19,7 @@ CREATE TABLE product (
     product_name VARCHAR(255) NOT NULL,
     retailer_id SMALLINT NOT NULL,
     PRIMARY KEY (product_id),
-    FOREIGN KEY (retailer_id)
+    FOREIGN KEY (retailer_id) REFERENCES retailer(retailer_id)
 );
 
 CREATE TABLE price (
@@ -27,7 +28,8 @@ CREATE TABLE price (
     item_price NUMERIC(10, 2),
     unit_id SMALLINT,
     price_date TIMESTAMP NOT NULL,
-    out_of_stock BOOLEAN, NOT NULL,
+    out_of_stock BOOLEAN NOT NULL,
     PRIMARY KEY (price_id),
-    FOREIGN KEY (product_id, unit_id)
+    FOREIGN KEY (product_id) REFERENCES product(product_id),
+    FOREIGN KEY (unit_id) REFERENCES unit(unit_id)
 );
