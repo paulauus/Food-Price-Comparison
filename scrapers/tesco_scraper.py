@@ -2,6 +2,8 @@
 Scrapes Tesco products for prices on specific products.
 """
 
+import argparse
+
 from bs4 import BeautifulSoup
 from curl_cffi import requests
 
@@ -33,9 +35,24 @@ def extract_product_names(query_html) -> list:
     return product_names
 
 
-try:
-    soup = get_url_soup("milk")
-    product_names = extract_product_names(soup)
-    print(product_names)
-except Exception as e:
-    print(f"An error occurred: {e}")
+def main():
+    # Set up argument parser for CLI
+    parser = argparse.ArgumentParser(
+        description="Scrape Tesco for product prices.")
+    parser.add_argument("product_name", type=str,
+                        help="The name of the product to search for")
+
+    # Parse arguments
+    args = parser.parse_args()
+
+    # Scrape and display product names
+    try:
+        soup = get_url_soup(args.product_name)
+        product_names = extract_product_names(soup)
+        print(product_names)
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+
+if __name__ == "__main__":
+    main()
