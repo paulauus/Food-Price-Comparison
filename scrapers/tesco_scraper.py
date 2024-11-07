@@ -49,7 +49,8 @@ def main():
     try:
         soup = get_url_soup(args.product_name)
         product_names = extract_product_names(soup)
-        print(product_names)
+        for product in product_names:
+            print(product)
     except Exception as e:
         print(f"An error occurred: {e}")
 
