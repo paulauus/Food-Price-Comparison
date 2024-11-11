@@ -25,7 +25,10 @@ CREATE TABLE product (
 CREATE TABLE price (
     price_id BIGINT GENERATED ALWAYS AS IDENTITY,
     product_id BIGINT NOT NULL,
-    item_price NUMERIC(10, 2),
+    item_price NUMERIC(8, 2),
+    loyalty_item_price NUMERIC(8, 2),
+    unit_price NUMERIC(8, 2),
+    loyalty_unit_price NUMERIC(8, 2),
     unit_id SMALLINT,
     price_date TIMESTAMP NOT NULL,
     out_of_stock BOOLEAN NOT NULL,
