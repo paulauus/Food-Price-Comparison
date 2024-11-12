@@ -26,13 +26,29 @@ def get_url_soup(item: str) -> BeautifulSoup:
     return soup
 
 
-def extract_product_names(query_html) -> list:
+def extract_product_names(query_html: BeautifulSoup) -> list:
     """Returns the names of the first 5 search results as a list."""
     product_elements = query_html.find_all(
         "span", class_="styled__Text-sc-1i711qa-1 bsLJsh ddsweb-link__text")
+    
+    # Extract the name text from the first 5 results
     product_names = [product.get_text(strip=True)
                      for product in product_elements[:5]]
+    
     return product_names
+
+
+def extract_full_prices(query_html: BeautifulSoup) -> list:
+    """Returns the full price of the first 5 search results as a list."""
+    # Change from 'span' to 'p' to match the correct HTML tag
+    product_elements = query_html.find_all(
+        "p", class_="text__StyledText-sc-1jpzi8m-0 gyHOWz ddsweb-text styled__PriceText-sc-v0qv7n-1 cXlRF")
+
+    # Extract the price text from the first 5 results
+    full_prices = [product.get_text(strip=True)
+                   for product in product_elements[:5]]
+
+    return full_prices
 
 
 def main():
@@ -51,6 +67,12 @@ def main():
         product_names = extract_product_names(soup)
         for product in product_names:
             print(product)
+
+        full_prices = extract_full_prices(soup)
+        for price in full_prices:
+            print(price)
+
+        
     except Exception as e:
         print(f"An error occurred: {e}")
 
