@@ -26,7 +26,7 @@ def get_url_soup(item: str) -> BeautifulSoup:
     return soup
 
 
-def extract_product_names(query_html: BeautifulSoup) -> list:
+def extract_product_name(query_html: BeautifulSoup) -> list:
     """Returns the names of the first 5 search results as a list."""
     product_elements = query_html.find_all(
         "span", class_="styled__Text-sc-1i711qa-1 bsLJsh ddsweb-link__text")
@@ -38,7 +38,7 @@ def extract_product_names(query_html: BeautifulSoup) -> list:
     return product_names
 
 
-def extract_full_prices(query_html: BeautifulSoup) -> list:
+def extract_full_price(query_html: BeautifulSoup) -> list:
     """Returns the full price of the first 5 search results as a list."""
     # Change from 'span' to 'p' to match the correct HTML tag
     product_elements = query_html.find_all(
@@ -49,6 +49,19 @@ def extract_full_prices(query_html: BeautifulSoup) -> list:
                    for product in product_elements[:5]]
 
     return full_prices
+
+
+def extract_full_unit_price(query_html: BeautifulSoup) -> list:
+    """Returns the full price of the first 5 search results as a list."""
+    # Change from 'span' to 'p' to match the correct HTML tag
+    product_elements = query_html.find_all(
+        "p", class_="text__StyledText-sc-1jpzi8m-0 kiGrpI ddsweb-text styled__Subtext-sc-v0qv7n-2 kLkheV ddsweb-price__subtext")
+
+    # Extract the price text from the first 5 results
+    full_unit_prices = [product.get_text(strip=True)
+                   for product in product_elements[:5]]
+
+    return full_unit_prices
 
 
 def main():
@@ -64,12 +77,16 @@ def main():
     # Scrape and display product names
     try:
         soup = get_url_soup(args.product_name)
-        product_names = extract_product_names(soup)
+        product_names = extract_product_name(soup)
         for product in product_names:
             print(product)
 
-        full_prices = extract_full_prices(soup)
+        full_prices = extract_full_price(soup)
         for price in full_prices:
+            print(price)
+
+        full_unit_prices = extract_full_unit_price(soup)
+        for price in full_unit_prices:
             print(price)
 
         
