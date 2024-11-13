@@ -26,7 +26,7 @@ def get_url_soup(item: str) -> BeautifulSoup:
     return soup
 
 
-def extract_html_under_div(query_html: BeautifulSoup) -> list:
+def extract_html_under_div(query_html: BeautifulSoup) -> list[BeautifulSoup]:
     """Returns the HTML content under each <div class="_ecrj"> for the first 5 results."""
     # Find all divs with class '_ecrj' which represent product containers
     div_elements = query_html.find_all("div", class_="_ecrj")[:5]
@@ -82,7 +82,7 @@ def extract_loyalty_unit_price(product_html: BeautifulSoup) -> str:
     return extract_full_unit_price(product_html)
 
 
-def main():
+def extract() -> list[dict]:
     # Set up argument parser for CLI
     parser = argparse.ArgumentParser(
         description="Scrape Tesco for product prices.")
@@ -120,4 +120,4 @@ def main():
 
 
 if __name__ == "__main__":
-    print(main())
+    print(extract())
