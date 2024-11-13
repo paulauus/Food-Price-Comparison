@@ -1,5 +1,5 @@
 """
-Scrapes Tesco products for prices on specific products.
+This is the extract script for scraping Tesco groceries from the shop's website.
 """
 
 import argparse
@@ -82,6 +82,14 @@ def extract_loyalty_unit_price(product_html: BeautifulSoup) -> str:
     return extract_full_unit_price(product_html)
 
 
+def extract_image_url(product_html: BeautifulSoup) -> str:
+    """Extracts the image URL from a single product's HTML."""
+    img_element = product_html.find(
+        "img", class_="styled__StyledImage-sc-1fweb41-1 fMufzB")
+    
+    return img_element["src"] if img_element else None
+
+
 def extract() -> list[dict]:
     """Extracts the top 5 search result items info from the groceries website."""
     # Set up argument parser for CLI
@@ -111,6 +119,7 @@ def extract() -> list[dict]:
             product["unit_price"] = extract_full_unit_price(product_html)
             product["loyalty_item_price"] = extract_loyalty_full_price(product_html)
             product["loyalty_unit_price"] = extract_loyalty_unit_price(product_html)
+            product["product_image_url"] = extract_image_url(product_html)
 
             result.append(product)
 
