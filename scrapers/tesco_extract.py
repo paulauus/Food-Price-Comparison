@@ -83,6 +83,7 @@ def extract_loyalty_unit_price(product_html: BeautifulSoup) -> str:
 
 
 def extract() -> list[dict]:
+    """Extracts the top 5 search result items info from the groceries website."""
     # Set up argument parser for CLI
     parser = argparse.ArgumentParser(
         description="Scrape Tesco for product prices.")
@@ -120,4 +121,6 @@ def extract() -> list[dict]:
 
 
 if __name__ == "__main__":
-    print(extract())
+    result = extract()
+    for item in result:
+        print(item)
