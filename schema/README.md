@@ -1,5 +1,9 @@
 # Database Schema
 
+## ERD
+
+![ERD](db_erd.png)
+
 ## Setting Up the Database Locally
 
 This guide will help you create and initialise the database with tables using the provided schema.sql and init_db.sh files.
