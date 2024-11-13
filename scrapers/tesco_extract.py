@@ -99,24 +99,25 @@ def main():
         # Extract HTML content for each product container
         product_containers = extract_html_under_div(soup)
 
+        result = []
         # Loop through each product container and extract relevant data
         for product_html in product_containers:
-            product_name = extract_product_name(product_html)
-            full_price = extract_full_price(product_html)
-            full_unit_price = extract_full_unit_price(product_html)
-            loyalty_price = extract_loyalty_full_price(product_html)
-            loyalty_unit_price = extract_loyalty_unit_price(product_html)
 
-            print(f"Product Name: {product_name}")
-            print(f"Full Price: {full_price}")
-            print(f"Full Unit Price: {full_unit_price}")
-            print(f"Loyalty Price: {loyalty_price}")
-            print(f"Loyalty Unit Price: {loyalty_unit_price}")
-            print("-" * 40)
+            product = {}
+
+            product["product_name"] = extract_product_name(product_html)
+            product["item_price"] = extract_full_price(product_html)
+            product["unit_price"] = extract_full_unit_price(product_html)
+            product["loyalty_item_price"] = extract_loyalty_full_price(product_html)
+            product["loyalty_unit_price"] = extract_loyalty_unit_price(product_html)
+
+            result.append(product)
 
     except Exception as e:
         print(f"An error occurred: {e}")
 
+    return result
+
 
 if __name__ == "__main__":
-    main()
+    print(main())
