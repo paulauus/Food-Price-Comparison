@@ -1,4 +1,7 @@
-from subprocess import call
+from subprocess import run
+
+file_to_run = "scrapers/tesco_extract.py"
+product_to_search = input("enter the name of the product: ")
 
 if __name__ == '__main__':
-    call(["python", "scrapers/tesco_extract.py"])
+    run(['python3', file_to_run, product_to_search])
