@@ -18,6 +18,7 @@ CREATE TABLE product (
     product_id BIGINT GENERATED ALWAYS AS IDENTITY,
     product_name VARCHAR(255) NOT NULL,
     retailer_id SMALLINT NOT NULL,
+    product_image_url TEXT,
     PRIMARY KEY (product_id),
     FOREIGN KEY (retailer_id) REFERENCES retailer(retailer_id)
 );
