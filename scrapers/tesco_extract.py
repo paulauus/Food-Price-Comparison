@@ -2,8 +2,6 @@
 This is the extract script for scraping Tesco groceries from the shop's website.
 """
 
-import argparse
-
 from bs4 import BeautifulSoup
 from curl_cffi import requests
 
@@ -86,24 +84,16 @@ def extract_image_url(product_html: BeautifulSoup) -> str:
     """Extracts the image URL from a single product's HTML."""
     img_element = product_html.find(
         "img", class_="styled__StyledImage-sc-1fweb41-1 fMufzB")
-    
+
     return img_element["src"] if img_element else None
 
 
-def extract() -> list[dict]:
+def main(product_name: str) -> list[dict]:
     """Extracts the top 5 search result items info from the groceries website."""
-    # Set up argument parser for CLI
-    parser = argparse.ArgumentParser(
-        description="Scrape Tesco for product prices.")
-    parser.add_argument("product_name", type=str,
-                        help="The name of the product to search for")
-
-    # Parse arguments
-    args = parser.parse_args()
 
     # Scrape the soup for the given product
     try:
-        soup = get_url_soup(args.product_name)
+        soup = get_url_soup(product_name)
 
         # Extract HTML content for each product container
         product_containers = extract_html_under_div(soup)
@@ -127,9 +117,3 @@ def extract() -> list[dict]:
         print(f"An error occurred: {e}")
 
     return result
-
-
-if __name__ == "__main__":
-    result = extract()
-    for item in result:
-        print(item)

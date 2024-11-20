@@ -42,6 +42,12 @@ def get_loyalty_unit_price(search_result: dict) -> float:
 
     return float(search_result["loyalty_unit_price"].strip("()£").split("/")[0])
 
+
+def transform(extract_result: list[dict]) -> list[dict]:
+    """Transforms the top 5 results into the correct data format to be used in data entry."""
+    ...
+        
+
 if __name__ == "__main__":
     data = [{'product_name': 'Tesco Classic Round Tomatoes 6 Pack', 'item_price': '£0.95', 'unit_price': '£0.16/each', 'loyalty_item_price': '£0.95', 'loyalty_unit_price': '£0.16/each',
             'product_image_url': 'https://digitalcontent.api.tesco.com/v2/media/ghs/f8a5bbce-3cf5-4c3e-ba28-d1f7963c59b1/dcabae4b-8259-4f95-a3ec-33335f88fe0e.jpeg?h=225&w=225'}, {
