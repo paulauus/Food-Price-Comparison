@@ -2,6 +2,8 @@
 This is the transform script for scraping Tesco groceries from the shop's website.
 """
 
+import re
+
 
 def change_item_price_to_float(search_result: dict) -> float:
     """Changes all the item prices in the result into a float."""
@@ -14,10 +16,25 @@ def get_unit_price_float(search_result: dict) -> float:
 
     return float(search_result["unit_price"].split("/")[0].replace("£", ""))
 
+
 def get_unit_name(search_result: dict) -> str:
     """Returns the unit name for unit price."""
 
     return search_result["unit_price"].split("/")[1]
+
+
+def get_loyalty_item_price(search_result: dict) -> float:
+    """Returns the loyalty price for the item as a float."""
+    match = re.search(r'\b(?:£\d+\.\d{2}|\d+p)\b', search_result["loyalty_item_price"])
+
+    if match:
+        if "p" in match.group(0):
+            return float(match.group(0).replace("p", ""))/ 100
+
+        if "£" in match.group(0):
+            return float(match.group(0).replace("£", ""))
+    
+    return change_item_price_to_float(search_result)
 
 if __name__ == "__main__":
     data = [{'product_name': 'Tesco Classic Round Tomatoes 6 Pack', 'item_price': '£0.95', 'unit_price': '£0.16/each', 'loyalty_item_price': '£0.95', 'loyalty_unit_price': '£0.16/each',
@@ -26,3 +43,4 @@ if __name__ == "__main__":
     print(change_item_price_to_float(data[1]))
     print(get_unit_price_float(data[1]))
     print(get_unit_name(data[1]))
+    print(get_loyalty_item_price(data[1]))
