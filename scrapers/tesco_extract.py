@@ -2,8 +2,6 @@
 This is the extract script for scraping Tesco groceries from the shop's website.
 """
 
-import argparse
-
 from bs4 import BeautifulSoup
 from curl_cffi import requests
 
@@ -86,16 +84,16 @@ def extract_image_url(product_html: BeautifulSoup) -> str:
     """Extracts the image URL from a single product's HTML."""
     img_element = product_html.find(
         "img", class_="styled__StyledImage-sc-1fweb41-1 fMufzB")
-    
+
     return img_element["src"] if img_element else None
 
 
-def extract(item: str) -> list[dict]:
+def extract() -> list[dict]:
     """Extracts the top 5 search result items info from the groceries website."""
 
     # Scrape the soup for the given product
     try:
-        soup = get_url_soup(item)
+        soup = get_url_soup(args.product_name)
 
         # Extract HTML content for each product container
         product_containers = extract_html_under_div(soup)
@@ -122,6 +120,6 @@ def extract(item: str) -> list[dict]:
 
 
 if __name__ == "__main__":
-    result = extract("tomato")
+    result = extract()
     for item in result:
         print(item)
