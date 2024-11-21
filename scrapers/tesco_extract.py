@@ -88,12 +88,12 @@ def extract_image_url(product_html: BeautifulSoup) -> str:
     return img_element["src"] if img_element else None
 
 
-def extract() -> list[dict]:
+def main(product_name: str) -> list[dict]:
     """Extracts the top 5 search result items info from the groceries website."""
 
     # Scrape the soup for the given product
     try:
-        soup = get_url_soup(args.product_name)
+        soup = get_url_soup(product_name)
 
         # Extract HTML content for each product container
         product_containers = extract_html_under_div(soup)
@@ -117,9 +117,3 @@ def extract() -> list[dict]:
         print(f"An error occurred: {e}")
 
     return result
-
-
-if __name__ == "__main__":
-    result = extract()
-    for item in result:
-        print(item)
